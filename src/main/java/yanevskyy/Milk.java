@@ -4,4 +4,7 @@ package yanevskyy;
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
 public class Milk extends Food {
+    public Milk(String name, int expirationDate, double price) {
+        super(name, expirationDate, price);
+    }
 }

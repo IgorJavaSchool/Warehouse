@@ -8,7 +8,7 @@ import java.util.Date;
 public class Food {
     private final String name;
     private int expirationDate;
-    private final Date createDate;
+    private Date createDate;
     private double price;
     private double disscount;
 
@@ -49,5 +49,13 @@ public class Food {
 
     public void setDisscount(double disscount) {
         this.disscount = disscount;
+    }
+
+    public Date dateExpiration(){
+        return new Date(getExpirationDate() * 86400000 + getCreateDate().getTime());
+    }
+
+    public void setCreateDate(long createDate) {
+        this.createDate.setTime(createDate);
     }
 }
