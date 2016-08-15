@@ -3,18 +3,30 @@ package yanevskyy;
 import java.util.Date;
 
 /**
+ * Used to describe the product.
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
 public class Food {
+    /*Product name*/
     private final String name;
-    private int expirationDate;
+    /*Amount of days before expiration date*/
+    private int expirationDays;
+    /*The date create*/
     private Date createDate;
+    /*Product price*/
     private double price;
-    private double disscount;
+    /*Product discount*/
+    private double discount;
 
-    public Food(String name, int expirationDate, double price) {
+    /**
+     * Creates new product. Creation date as current date.
+     * @param name Product name.
+     * @param expirationDays Amount of days before expiration date.
+     * @param price Product price
+     */
+    public Food(String name, int expirationDays, double price) {
         this.name = name;
-        this.expirationDate = expirationDate;
+        this.expirationDays = expirationDays;
         this.price = price;
         this.createDate = new Date();
     }
@@ -23,12 +35,12 @@ public class Food {
         return name;
     }
 
-    public int getExpirationDate() {
-        return expirationDate;
+    public int getExpirationDays() {
+        return expirationDays;
     }
 
-    public void setExpirationDate(int expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setExpirationDays(int expirationDays) {
+        this.expirationDays = expirationDays;
     }
 
     public Date getCreateDate() {
@@ -43,19 +55,23 @@ public class Food {
         this.price = price;
     }
 
-    public double getDisscount() {
-        return disscount;
+    public double getDiscount() {
+        return discount;
     }
 
-    public void setDisscount(double disscount) {
-        this.disscount = disscount;
-    }
-
-    public Date dateExpiration(){
-        return new Date(getExpirationDate() * 86400000 + getCreateDate().getTime());
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     public void setCreateDate(long createDate) {
         this.createDate.setTime(createDate);
+    }
+
+    /**
+     * Create expiration date.
+     * @return
+     */
+    public Date dateExpiration(){
+        return new Date(getExpirationDays() * 86400000 + getCreateDate().getTime());
     }
 }
