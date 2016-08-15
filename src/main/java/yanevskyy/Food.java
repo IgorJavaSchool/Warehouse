@@ -17,6 +17,7 @@ public class Food {
     private double price;
     /*Product discount*/
     private double discount;
+    private boolean canReproduct;
 
     /**
      * Creates new product. Creation date as current date.
@@ -73,5 +74,13 @@ public class Food {
      */
     public Date dateExpiration(){
         return new Date(getExpirationDays() * 86400000 + getCreateDate().getTime());
+    }
+
+    public boolean isCanReproduct() {
+        return canReproduct;
+    }
+
+    public void setCanReproduct(boolean canReproduct) {
+        this.canReproduct = canReproduct;
     }
 }
