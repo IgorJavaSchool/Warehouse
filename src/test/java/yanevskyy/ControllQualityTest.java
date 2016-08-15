@@ -22,7 +22,7 @@ public class ControllQualityTest {
     }
 
     @Test
-    public void GetProductLess25Percent() throws Exception {
+    public void GetProductLess25PercentSendToWarehouse() throws Exception {
         milk.setCreateDate(new Date().getTime() - 172000000);
         ControllQuality controllQualityResult = new ControllQuality();
         controllQualityResult.fillStorage();
@@ -40,7 +40,7 @@ public class ControllQualityTest {
     }
 
     @Test
-    public void GetProductMore25Less75Percent() throws Exception {
+    public void GetProductMore25Less75PercentSendToShop() throws Exception {
         milk.setCreateDate(new Date().getTime() - 180000000);
         ControllQuality controllQualityResult = new ControllQuality();
         controllQualityResult.fillStorage();
@@ -58,7 +58,7 @@ public class ControllQualityTest {
     }
 
     @Test
-    public void GetProductMore75Less100Percent() throws Exception {
+    public void GetProductMore75Less100PercentSendToShopSetDiscount() throws Exception {
         milk.setCreateDate(new Date().getTime() - 681500000);
         ControllQuality controllQualityResult = new ControllQuality();
         controllQualityResult.fillStorage();
@@ -79,7 +79,7 @@ public class ControllQualityTest {
     }
 
     @Test
-    public void GetProductMore100Percent() throws Exception {
+    public void GetProductMore100PercentSendToTrash() throws Exception {
         milk.setCreateDate(new Date().getTime() - 691500000);
         ControllQuality controllQualityResult = new ControllQuality();
         controllQualityResult.fillStorage();
