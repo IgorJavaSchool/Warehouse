@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ControlQuality implements InspectionQuality {
     /*All storage*/
-    List<Storage> storages;
+    private List<Storage> storages;
 
     /**
      * Default constructor
@@ -26,9 +26,7 @@ public class ControlQuality implements InspectionQuality {
      */
     @Override
     public void checkQuality(Food food) {
-        long timeExpiration = food.dateExpiration().getTime()- food.getCreateDate().getTime();
-        long timeCurrent = new Date().getTime() - food.getCreateDate().getTime();
-        long percentExpiration = calculationPercent(timeExpiration, timeCurrent);
+        long percentExpiration = calculationPercent(food);
         if (percentExpiration < 25)
             findStorage("Warehouse").getFoods().add(food);
         if (percentExpiration > 25 && percentExpiration < 75)
@@ -37,17 +35,17 @@ public class ControlQuality implements InspectionQuality {
             food.setDiscount(50);
             findStorage("Shop").getFoods().add(food);
         }
-        if (percentExpiration >= 100) findStorage("Trash").getFoods().add(food);
+        if (percentExpiration >= 100 && !food.isCanReproduct()) findStorage("Trash").getFoods().add(food);
     }
 
     /**
      * Calculations percent used up time.
-     * @param timeExpiration Fool expiration time.
-     * @param timeCurrent Used up time.
+     * @param food Used the product.
      * @return
      */
-    public long calculationPercent(long timeExpiration, long timeCurrent){
-
+    public long calculationPercent(Food food){
+        long timeExpiration = food.dateExpiration().getTime()- food.getCreateDate().getTime();
+        long timeCurrent = new Date().getTime() - food.getCreateDate().getTime();
         return (timeCurrent * 100 / timeExpiration);
     }
 
@@ -58,8 +56,10 @@ public class ControlQuality implements InspectionQuality {
      */
     public Storage findStorage(String name){
         for (Storage storage : getStorages()) {
-            if(storage.toString().equals(name))
+            if(storage.toString().equals(name)) {
+             if (!storage.isFull())
                 return storage;
+            }
         }
         return null;
     }
@@ -72,8 +72,10 @@ public class ControlQuality implements InspectionQuality {
      * Adds all storage.
      */
     public void fillStorage(){
-        getStorages().add(new Shop());
-        getStorages().add(new Trash());
-        getStorages().add(new Warehouse());
+        getStorages().add(new Shop(15));
+        getStorages().add(new Trash(0));
+        getStorages().add(new Warehouse(5));
+        getStorages().add(new Warehouse(5));
+        getStorages().add(new Fridge(-5));
     }
 }

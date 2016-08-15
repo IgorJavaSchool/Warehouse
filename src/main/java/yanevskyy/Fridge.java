@@ -1,21 +1,20 @@
 package yanevskyy;
 
 /**
- * Uses as imitations the warehouse.
- * @author Yanevskyy Igor igor2000@inbox.ru.
+ * Created by Y on 15.08.2016.
  */
-public class Warehouse extends Storage {
+public class Fridge extends Storage {
     /**
      * Default constructor
      *
      * @param temperature
      */
-    public Warehouse(int temperature) {
+    public Fridge(int temperature) {
         super(temperature);
     }
 
     @Override
     public String toString() {
-        return "Warehouse";
+        return "Fridge";
     }
 }

@@ -5,7 +5,7 @@ package yanevskyy;
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
 public class Meat extends Food {
-    public Meat(String name, int expirationDate, double price) {
-        super(name, expirationDate, price);
+    public Meat(String name, int expirationDate, double price, boolean canReproduct) {
+        super(name, expirationDate, price, canReproduct);
     }
 }

@@ -12,7 +12,7 @@ import static org.hamcrest.core.Is.is;
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
 public class ControlQualityTest {
-    Milk milk = new Milk("Milk", 8, 15);
+    Milk milk = new Milk("Milk", 8, 15, false);
     ControlQuality controlQuality = new ControlQuality();
     @Before
     public void setUp() throws Exception {
@@ -24,10 +24,8 @@ public class ControlQualityTest {
         milk.setCreateDate(new Date().getTime() - 172000000);
         ControlQuality controlQualityResult = new ControlQuality();
         controlQualityResult.fillStorage();
-        for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage.toString().equals("Warehouse"))
-                controlQualityResult.findStorage("Warehouse").getFoods().add(milk);
-        }
+        controlQualityResult.getStorages().get(2).getFoods().add(milk);
+
 
         controlQuality.checkQuality(milk);
 
@@ -42,10 +40,8 @@ public class ControlQualityTest {
         milk.setCreateDate(new Date().getTime() - 180000000);
         ControlQuality controlQualityResult = new ControlQuality();
         controlQualityResult.fillStorage();
-        for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage.toString().equals("Shop"))
-                controlQualityResult.findStorage("Shop").getFoods().add(milk);
-        }
+        controlQualityResult.getStorages().get(0).getFoods().add(milk);
+
 
         controlQuality.checkQuality(milk);
 
@@ -60,10 +56,7 @@ public class ControlQualityTest {
         milk.setCreateDate(new Date().getTime() - 681500000);
         ControlQuality controlQualityResult = new ControlQuality();
         controlQualityResult.fillStorage();
-        for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage.toString().equals("Shop"))
-                controlQualityResult.findStorage("Shop").getFoods().add(milk);
-        }
+        controlQualityResult.getStorages().get(0).getFoods().add(milk);
         milk.setDiscount(50);
         double discountResult = controlQualityResult.getStorages().get(0).getFoods().get(0).getDiscount();
 
@@ -81,10 +74,7 @@ public class ControlQualityTest {
         milk.setCreateDate(new Date().getTime() - 691500000);
         ControlQuality controlQualityResult = new ControlQuality();
         controlQualityResult.fillStorage();
-        for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage.toString().equals("Trash"))
-                controlQualityResult.findStorage("Trash").getFoods().add(milk);
-        }
+        controlQualityResult.getStorages().get(1).getFoods().add(milk);
 
         controlQuality.checkQuality(milk);
 
@@ -96,16 +86,28 @@ public class ControlQualityTest {
 
     @Test
     public void calculationPercent() throws Exception {
-        long timeExpiration = milk.dateExpiration().getTime()- milk.getCreateDate().getTime();
-        /*345600000 Amount of days after create product.  */
-        long timeCurrent = new Date().getTime() - milk.getCreateDate().getTime() + 172800000;
+        milk.setCreateDate(new Date().getTime() - 172800000);
         long result = 25;
 
-        long check = controlQuality.calculationPercent(timeExpiration, timeCurrent);
+        long check = controlQuality.calculationPercent(milk);
 
         Assert.assertEquals(check, result);
+    }
 
+    @Test
+    public void GetProductLess25PercentAndOneWarehouseIsFullSendToWarehouse2() throws Exception {
+        milk.setCreateDate(new Date().getTime() - 172000000);
+        ControlQuality controlQualityResult = new ControlQuality();
+        controlQualityResult.fillStorage();
+        controlQuality.getStorages().get(2).setFull(true);
+        controlQualityResult.getStorages().get(3).getFoods().add(milk);
 
+        controlQuality.checkQuality(milk);
+
+        Assert.assertEquals(controlQualityResult.getStorages().size(), controlQuality.getStorages().size());
+        for (int i = 0; i < controlQualityResult.getStorages().size(); i++) {
+            Assert.assertEquals(controlQualityResult.getStorages().get(i).getFoods(), controlQuality.getStorages().get(i).getFoods());
+        }
     }
 
 }
