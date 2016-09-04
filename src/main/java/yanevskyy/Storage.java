@@ -7,7 +7,7 @@ import java.util.List;
  * Uses as parent class for all storage.
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
-public class Storage {
+public abstract class Storage {
     /*Foods on the storage*/
     List<Food> foods;
 
@@ -22,8 +22,10 @@ public class Storage {
         return foods;
     }
 
-    public void setFoods(List<Food> foods) {
-        this.foods = foods;
+    public void add(Food food){
+        foods.add(food);
     }
+
+    public abstract boolean checkQuality(Food food);
 
 }

@@ -5,8 +5,11 @@ package yanevskyy;
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
 public class Warehouse extends Storage {
+
     @Override
-    public String toString() {
-        return "Warehouse";
+    public boolean checkQuality(Food food) {
+        if (food.percentExpiration() < 25)
+            return true;
+        else return false;
     }
 }

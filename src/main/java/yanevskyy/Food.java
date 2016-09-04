@@ -31,28 +31,12 @@ public class Food {
         this.createDate = new Date();
     }
 
-    public String getName() {
-        return name;
-    }
-
     public int getExpirationDays() {
         return expirationDays;
     }
 
-    public void setExpirationDays(int expirationDays) {
-        this.expirationDays = expirationDays;
-    }
-
     public Date getCreateDate() {
         return createDate;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public double getDiscount() {
@@ -73,5 +57,15 @@ public class Food {
      */
     public Date dateExpiration(){
         return new Date(getExpirationDays() * 86400000 + getCreateDate().getTime());
+    }
+
+    /**
+     * Calculate percent time expiration for food.
+     * @return
+     */
+    public long percentExpiration(){
+        long timeExpiration = dateExpiration().getTime()- getCreateDate().getTime();
+        long timeCurrent = System.currentTimeMillis() - getCreateDate().getTime();
+        return timeCurrent * 100 / timeExpiration;
     }
 }

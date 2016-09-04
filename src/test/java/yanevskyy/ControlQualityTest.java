@@ -25,8 +25,8 @@ public class ControlQualityTest {
         ControlQuality controlQualityResult = new ControlQuality();
         controlQualityResult.fillStorage();
         for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage.toString().equals("Warehouse"))
-                controlQualityResult.findStorage("Warehouse").getFoods().add(milk);
+            if (storage instanceof Warehouse)
+                storage.add(milk);
         }
 
         controlQuality.checkQuality(milk);
@@ -43,8 +43,8 @@ public class ControlQualityTest {
         ControlQuality controlQualityResult = new ControlQuality();
         controlQualityResult.fillStorage();
         for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage.toString().equals("Shop"))
-                controlQualityResult.findStorage("Shop").getFoods().add(milk);
+            if (storage instanceof Shop)
+                storage.add(milk);
         }
 
         controlQuality.checkQuality(milk);
@@ -61,8 +61,8 @@ public class ControlQualityTest {
         ControlQuality controlQualityResult = new ControlQuality();
         controlQualityResult.fillStorage();
         for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage.toString().equals("Shop"))
-                controlQualityResult.findStorage("Shop").getFoods().add(milk);
+            if (storage instanceof  Shop)
+                storage.add(milk);
         }
         milk.setDiscount(50);
         double discountResult = controlQualityResult.getStorages().get(0).getFoods().get(0).getDiscount();
@@ -82,8 +82,8 @@ public class ControlQualityTest {
         ControlQuality controlQualityResult = new ControlQuality();
         controlQualityResult.fillStorage();
         for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage.toString().equals("Trash"))
-                controlQualityResult.findStorage("Trash").getFoods().add(milk);
+            if (storage instanceof Trash)
+                storage.add(milk);
         }
 
         controlQuality.checkQuality(milk);
@@ -101,7 +101,7 @@ public class ControlQualityTest {
         long timeCurrent = new Date().getTime() - milk.getCreateDate().getTime() + 172800000;
         long result = 25;
 
-        long check = controlQuality.calculationPercent(timeExpiration, timeCurrent);
+        long check = timeCurrent * 100 / timeExpiration;
 
         Assert.assertEquals(check, result);
 
