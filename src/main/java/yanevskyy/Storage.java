@@ -9,13 +9,13 @@ import java.util.List;
  */
 public abstract class Storage {
     /*Foods on the storage*/
-    List<Food> foods;
+    private List<Food> foods;
 
     /**
      * Default constructor
      */
-    public Storage() {
-        foods = new ArrayList<>();
+    public Storage(List<Food> foods) {
+        this.foods = foods;
     }
 
     public void add(Food food){

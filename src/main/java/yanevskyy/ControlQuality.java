@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ControlQuality implements InspectionQuality {
     /*All storage*/
-    List<Storage> storages;
+    private List<Storage> storages;
 
     /**
      * Default constructor

@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 
@@ -12,96 +14,78 @@ import static org.hamcrest.core.Is.is;
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
 public class ControlQualityTest {
-    Milk milk = new Milk("Milk", 8, 15);
-    ControlQuality controlQuality = new ControlQuality();
+    private Milk milk;
+    private Date createDate = new Date();
+    private List<Food> foodsShop;
+    private List<Food> foodsWarehouse;
+    private List<Food> foodsTrash;
+    private ControlQuality controlQuality = new ControlQuality();
     @Before
     public void setUp() throws Exception {
-        controlQuality.addStorage();
+        foodsShop = new ArrayList<>();
+        foodsWarehouse = new ArrayList<>();
+        foodsTrash = new ArrayList<>();
+        controlQuality.addStorage(new Shop(foodsShop));
+        controlQuality.addStorage(new Warehouse(foodsWarehouse));
+        controlQuality.addStorage(new Trash(foodsTrash));
     }
 
     @Test
-    public void GetProductLess25PercentSendToWarehouse() throws Exception {
-        milk.setCreateDate(new Date().getTime() - 172000000);
-        ControlQuality controlQualityResult = new ControlQuality();
-        controlQualityResult.addStorage();
-        for (Storage storage : controlQualityResult.storages) {
-            if (storage instanceof Warehouse)
-                storage.add(milk);
-        }
+    public void WhenProductLess25PercentThenSendToWarehouse() throws Exception {
+        createDate.setTime(new Date().getTime() - 172000000);
+        milk = new Milk("Milk", 8, 15, createDate);
 
         controlQuality.checkQuality(milk);
 
-        Assert.assertEquals(controlQualityResult.storages.size(), controlQuality.storages.size());
-        for (int i = 0; i < controlQualityResult.storages.size(); i++) {
-            Assert.assertEquals(controlQualityResult.storages.get(i).foods, controlQuality.storages.get(i).foods);
-        }
+        Assert.assertTrue(foodsWarehouse.contains(milk));
+        Assert.assertFalse(foodsShop.contains(milk));
+        Assert.assertFalse(foodsTrash.contains(milk));
     }
 
     @Test
-    public void GetProductMore25Less75PercentSendToShop() throws Exception {
-        milk.setCreateDate(new Date().getTime() - 180000000);
-        ControlQuality controlQualityResult = new ControlQuality();
-        controlQualityResult.addStorage();
-        for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage instanceof Shop)
-                storage.add(milk);
-        }
+    public void WhenProductMore25Less75PercentThenSendToShop() throws Exception {
+        createDate.setTime(new Date().getTime() - 180000000);
+        milk = new Milk("Milk", 8, 15, createDate);
 
         controlQuality.checkQuality(milk);
 
-        Assert.assertEquals(controlQualityResult.getStorages().size(), controlQuality.getStorages().size());
-        for (int i = 0; i < controlQualityResult.getStorages().size(); i++) {
-            Assert.assertEquals(controlQualityResult.getStorages().get(i).getFoods(), controlQuality.getStorages().get(i).getFoods());
-        }
+        Assert.assertFalse(foodsWarehouse.contains(milk));
+        Assert.assertTrue(foodsShop.contains(milk));
+        Assert.assertFalse(foodsTrash.contains(milk));
     }
 
     @Test
-    public void GetProductMore75Less100PercentSendToShopSetDiscount() throws Exception {
-        milk.setCreateDate(new Date().getTime() - 681500000);
-        ControlQuality controlQualityResult = new ControlQuality();
-        controlQualityResult.addStorage();
-        for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage instanceof  Shop)
-                storage.add(milk);
-        }
-        milk.setDiscount(50);
-        double discountResult = controlQualityResult.getStorages().get(0).getFoods().get(0).getDiscount();
+    public void WhenProductMore75Less100PercentThenSendToShopSetDiscount() throws Exception {
+        createDate.setTime(new Date().getTime() - 681500000);
+        milk = new Milk("Milk", 8, 15, createDate);
 
         controlQuality.checkQuality(milk);
 
-        Assert.assertEquals(controlQualityResult.getStorages().size(), controlQuality.getStorages().size());
-        for (int i = 0; i < controlQualityResult.getStorages().size(); i++) {
-            Assert.assertEquals(controlQualityResult.getStorages().get(i).getFoods(), controlQuality.getStorages().get(i).getFoods());
-        }
-        Assert.assertThat(controlQuality.getStorages().get(0).getFoods().get(0).getDiscount(), is(discountResult));
+        Assert.assertFalse(foodsWarehouse.contains(milk));
+        Assert.assertTrue(foodsShop.contains(milk));
+        Assert.assertTrue(milk.getDiscount() == 50);
+        Assert.assertFalse(foodsTrash.contains(milk));
     }
 
     @Test
-    public void GetProductMore100PercentSendToTrash() throws Exception {
-        milk.setCreateDate(new Date().getTime() - 691500000);
-        ControlQuality controlQualityResult = new ControlQuality();
-        controlQualityResult.addStorage();
-        for (Storage storage : controlQualityResult.getStorages()) {
-            if (storage instanceof Trash)
-                storage.add(milk);
-        }
+    public void WhenProductMore100PercentThenSendToTrash() throws Exception {
+        createDate.setTime(new Date().getTime() - 691500000);
+        milk = new Milk("Milk", 8, 15, createDate);
 
         controlQuality.checkQuality(milk);
 
-        Assert.assertEquals(controlQualityResult.getStorages().size(), controlQuality.getStorages().size());
-        for (int i = 0; i < controlQualityResult.getStorages().size(); i++) {
-            Assert.assertEquals(controlQualityResult.getStorages().get(i).getFoods(), controlQuality.getStorages().get(i).getFoods());
-        }
+        Assert.assertFalse(foodsWarehouse.contains(milk));
+        Assert.assertFalse(foodsShop.contains(milk));
+        Assert.assertTrue(foodsTrash.contains(milk));
     }
 
     @Test
     public void calculationPercent() throws Exception {
-        long timeExpiration = milk.dateExpiration().getTime()- milk.getCreateDate().getTime();
-        /*345600000 Amount of days after create product.  */
-        long timeCurrent = new Date().getTime() - milk.getCreateDate().getTime() + 172800000;
+        createDate.setTime(new Date().getTime() - 172800000);
+        milk = new Milk("Milk", 8, 15, createDate);
         long result = 25;
 
-        long check = timeCurrent * 100 / timeExpiration;
+        long check = milk.percentExpiration();
 
         Assert.assertEquals(check, result);
 

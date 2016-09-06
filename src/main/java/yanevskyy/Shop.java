@@ -1,10 +1,21 @@
 package yanevskyy;
 
+import java.util.List;
+
 /**
  * Uses as imitations the shop.
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
 public class Shop extends Storage {
+
+    /**
+     * Default constructor
+     *
+     * @param foods
+     */
+    public Shop(List<Food> foods) {
+        super(foods);
+    }
 
     @Override
     public boolean checkQuality(Food food) {

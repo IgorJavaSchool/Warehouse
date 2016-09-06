@@ -24,15 +24,19 @@ public class Food {
      * @param expirationDays Amount of days before expiration date.
      * @param price Product price
      */
-    public Food(String name, int expirationDays, double price) {
+    public Food(String name, int expirationDays, double price, Date createDate) {
         this.name = name;
         this.expirationDays = expirationDays;
         this.price = price;
-        this.createDate = new Date();
+        this.createDate = createDate;
     }
 
-    public void setDiscount(double discount) {
+    void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public double getDiscount() {
+        return discount;
     }
 
     /**
@@ -52,4 +56,5 @@ public class Food {
         long timeCurrent = System.currentTimeMillis() - this.createDate.getTime();
         return timeCurrent * 100 / timeExpiration;
     }
+
 }
