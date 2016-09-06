@@ -21,13 +21,13 @@ public class ControlQuality implements InspectionQuality {
     }
 
     /**
-     * Checks Food's data expiration and move it to storage.
+     * Checks Food's data expiration and move it to storage, and check whether the warehouse is full.
      * @param food Any food.
      */
     @Override
     public void checkQuality(Food food) {
         for (Storage storage : this.storages) {
-            if (storage.checkQuality(food))
+            if (storage.checkQuality(food) && !storage.isFullStorage())
                 storage.add(food);
         }
 

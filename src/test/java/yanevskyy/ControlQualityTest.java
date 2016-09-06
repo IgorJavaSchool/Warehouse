@@ -14,26 +14,38 @@ import static org.hamcrest.core.Is.is;
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
 public class ControlQualityTest {
-    private Milk milk;
-    private Date createDate = new Date();
-    private List<Food> foodsShop;
-    private List<Food> foodsWarehouse;
-    private List<Food> foodsTrash;
-    private ControlQuality controlQuality = new ControlQuality();
+    Milk milk;
+    Date createDate = new Date();
+    List<Food> foodsShop;
+    List<Food> foodsWarehouse;
+    List<Food> foodsWarehouse2;
+    List<Food> foodsTrash;
+    Storage shop;
+    Storage warehouse;
+    Storage warehouse2;
+    Storage trash;
+    ControlQuality controlQuality = new ControlQuality();
+
     @Before
     public void setUp() throws Exception {
         foodsShop = new ArrayList<>();
         foodsWarehouse = new ArrayList<>();
+        foodsWarehouse2 = new ArrayList<>();
         foodsTrash = new ArrayList<>();
-        controlQuality.addStorage(new Shop(foodsShop));
-        controlQuality.addStorage(new Warehouse(foodsWarehouse));
-        controlQuality.addStorage(new Trash(foodsTrash));
+        shop = new Shop(foodsShop, false);
+        warehouse = new Warehouse(foodsWarehouse, false);
+        warehouse2 = new Warehouse(foodsWarehouse2, false);
+        trash = new Trash(foodsTrash, false);
+        controlQuality.addStorage(shop);
+        controlQuality.addStorage(warehouse);
+        controlQuality.addStorage(trash);
+        controlQuality.addStorage(warehouse2);
     }
 
     @Test
     public void WhenProductLess25PercentThenSendToWarehouse() throws Exception {
         createDate.setTime(new Date().getTime() - 172000000);
-        milk = new Milk("Milk", 8, 15, createDate);
+        milk = new Milk("Milk", 8, 15, createDate, true);
 
         controlQuality.checkQuality(milk);
 
@@ -45,7 +57,7 @@ public class ControlQualityTest {
     @Test
     public void WhenProductMore25Less75PercentThenSendToShop() throws Exception {
         createDate.setTime(new Date().getTime() - 180000000);
-        milk = new Milk("Milk", 8, 15, createDate);
+        milk = new Milk("Milk", 8, 15, createDate, true);
 
         controlQuality.checkQuality(milk);
 
@@ -57,7 +69,7 @@ public class ControlQualityTest {
     @Test
     public void WhenProductMore75Less100PercentThenSendToShopSetDiscount() throws Exception {
         createDate.setTime(new Date().getTime() - 681500000);
-        milk = new Milk("Milk", 8, 15, createDate);
+        milk = new Milk("Milk", 8, 15, createDate, true);
 
         controlQuality.checkQuality(milk);
 
@@ -70,7 +82,7 @@ public class ControlQualityTest {
     @Test
     public void WhenProductMore100PercentThenSendToTrash() throws Exception {
         createDate.setTime(new Date().getTime() - 691500000);
-        milk = new Milk("Milk", 8, 15, createDate);
+        milk = new Milk("Milk", 8, 15, createDate, false);
 
         controlQuality.checkQuality(milk);
 
@@ -82,14 +94,48 @@ public class ControlQualityTest {
     @Test
     public void calculationPercent() throws Exception {
         createDate.setTime(new Date().getTime() - 172800000);
-        milk = new Milk("Milk", 8, 15, createDate);
+        milk = new Milk("Milk", 8, 15, createDate, true);
         long result = 25;
 
         long check = milk.percentExpiration();
 
         Assert.assertEquals(check, result);
+    }
 
+    @Test
+    public void WhenProductLess25PercentWarehouse1IsFullThenSendToWarehouse2() throws Exception {
+        warehouse = new Warehouse(foodsWarehouse, true);
+        controlQuality = new ControlQuality();
+        controlQuality.addStorage(shop);
+        controlQuality.addStorage(warehouse);
+        controlQuality.addStorage(warehouse2);
+        controlQuality.addStorage(trash);
+        createDate.setTime(new Date().getTime() - 172000000);
+        milk = new Milk("Milk", 8, 15, createDate, true);
 
+        controlQuality.checkQuality(milk);
+
+        Assert.assertFalse(foodsWarehouse.contains(milk));
+        Assert.assertTrue(foodsWarehouse2.contains(milk));
+        Assert.assertFalse(foodsShop.contains(milk));
+        Assert.assertFalse(foodsTrash.contains(milk));
+    }
+
+    @Test
+    public void WhenProductMore100PercentAndReproductIsTrueThenSendToRefregerator() throws Exception {
+        createDate.setTime(new Date().getTime() - 691500000);
+        milk = new Milk("Milk", 8, 15, createDate, true);
+        List<Food> foodsRefregerator = new ArrayList<>();
+        Storage refregerator = new Refregerator(foodsRefregerator,false);
+        controlQuality.addStorage(refregerator);
+
+        controlQuality.checkQuality(milk);
+
+        Assert.assertFalse(foodsWarehouse.contains(milk));
+        Assert.assertFalse(foodsWarehouse2.contains(milk));
+        Assert.assertFalse(foodsShop.contains(milk));
+        Assert.assertFalse(foodsTrash.contains(milk));
+        Assert.assertTrue(foodsRefregerator.contains(milk));
     }
 
 }

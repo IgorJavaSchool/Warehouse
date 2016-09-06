@@ -1,6 +1,5 @@
 package yanevskyy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,12 +9,18 @@ import java.util.List;
 public abstract class Storage {
     /*Foods on the storage*/
     private List<Food> foods;
-
+    /*It shows free space in the warehouse.*/
+    private boolean fullStorage;
     /**
      * Default constructor
      */
-    public Storage(List<Food> foods) {
+    public Storage(List<Food> foods, boolean fullStorage) {
         this.foods = foods;
+        this.fullStorage = fullStorage;
+    }
+
+    public boolean isFullStorage() {
+        return fullStorage;
     }
 
     public void add(Food food){

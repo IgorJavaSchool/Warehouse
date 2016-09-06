@@ -13,13 +13,13 @@ public class Trash extends Storage {
      *
      * @param foods
      */
-    public Trash(List<Food> foods) {
-        super(foods);
+    public Trash(List<Food> foods, boolean fullStorage) {
+        super(foods, fullStorage);
     }
 
     @Override
     public boolean checkQuality(Food food) {
-        if (food.percentExpiration() >= 100)
+        if (food.percentExpiration() >= 100 && !food.isCanReproduct())
             return true;
         else return false;
     }

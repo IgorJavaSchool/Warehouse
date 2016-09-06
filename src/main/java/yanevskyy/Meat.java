@@ -7,7 +7,7 @@ import java.util.Date;
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
 public class Meat extends Food {
-    public Meat(String name, int expirationDate, double price, Date createDate) {
-        super(name, expirationDate, price,createDate);
+    public Meat(String name, int expirationDate, double price, Date createDate, boolean canReproduct) {
+        super(name, expirationDate, price,createDate, canReproduct);
     }
 }

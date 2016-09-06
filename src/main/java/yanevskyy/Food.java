@@ -17,6 +17,8 @@ public class Food {
     private double price;
     /*Product discount*/
     private double discount;
+    /*Recyclability*/
+    private boolean canReproduct;
 
     /**
      * Creates new product. Creation date as current date.
@@ -24,11 +26,12 @@ public class Food {
      * @param expirationDays Amount of days before expiration date.
      * @param price Product price
      */
-    public Food(String name, int expirationDays, double price, Date createDate) {
+    public Food(String name, int expirationDays, double price, Date createDate, boolean canReproduct) {
         this.name = name;
         this.expirationDays = expirationDays;
         this.price = price;
         this.createDate = createDate;
+        this.canReproduct = canReproduct;
     }
 
     void setDiscount(double discount) {
@@ -37,6 +40,10 @@ public class Food {
 
     public double getDiscount() {
         return discount;
+    }
+
+    public boolean isCanReproduct() {
+        return canReproduct;
     }
 
     /**

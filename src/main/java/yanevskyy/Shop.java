@@ -13,8 +13,8 @@ public class Shop extends Storage {
      *
      * @param foods
      */
-    public Shop(List<Food> foods) {
-        super(foods);
+    public Shop(List<Food> foods, boolean fullStorage) {
+        super(foods, fullStorage);
     }
 
     @Override

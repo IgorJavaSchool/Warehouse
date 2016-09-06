@@ -3,23 +3,23 @@ package yanevskyy;
 import java.util.List;
 
 /**
- * Uses as imitations the warehouse.
+ * Keeps the foods recyclability.
  * @author Yanevskyy Igor igor2000@inbox.ru.
  */
-public class Warehouse extends Storage {
-
+public class Refregerator extends Storage {
     /**
      * Default constructor
      *
      * @param foods
+     * @param fullStorage
      */
-    public Warehouse(List<Food> foods, boolean fullStorage) {
+    public Refregerator(List<Food> foods, boolean fullStorage) {
         super(foods, fullStorage);
     }
 
     @Override
     public boolean checkQuality(Food food) {
-        if (food.percentExpiration() < 25)
+        if (food.percentExpiration() >= 100 && food.isCanReproduct())
             return true;
         else return false;
     }
