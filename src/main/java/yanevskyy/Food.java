@@ -31,24 +31,8 @@ public class Food {
         this.createDate = new Date();
     }
 
-    public int getExpirationDays() {
-        return expirationDays;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public double getDiscount() {
-        return discount;
-    }
-
     public void setDiscount(double discount) {
         this.discount = discount;
-    }
-
-    public void setCreateDate(long createDate) {
-        this.createDate.setTime(createDate);
     }
 
     /**
@@ -56,7 +40,7 @@ public class Food {
      * @return
      */
     public Date dateExpiration(){
-        return new Date(getExpirationDays() * 86400000 + getCreateDate().getTime());
+        return new Date(this.expirationDays * 86400000 + this.createDate.getTime());
     }
 
     /**
@@ -64,8 +48,8 @@ public class Food {
      * @return
      */
     public long percentExpiration(){
-        long timeExpiration = dateExpiration().getTime()- getCreateDate().getTime();
-        long timeCurrent = System.currentTimeMillis() - getCreateDate().getTime();
+        long timeExpiration = dateExpiration().getTime()- this.createDate.getTime();
+        long timeCurrent = System.currentTimeMillis() - this.createDate.getTime();
         return timeCurrent * 100 / timeExpiration;
     }
 }

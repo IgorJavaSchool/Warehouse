@@ -16,24 +16,24 @@ public class ControlQualityTest {
     ControlQuality controlQuality = new ControlQuality();
     @Before
     public void setUp() throws Exception {
-        controlQuality.fillStorage();
+        controlQuality.addStorage();
     }
 
     @Test
     public void GetProductLess25PercentSendToWarehouse() throws Exception {
         milk.setCreateDate(new Date().getTime() - 172000000);
         ControlQuality controlQualityResult = new ControlQuality();
-        controlQualityResult.fillStorage();
-        for (Storage storage : controlQualityResult.getStorages()) {
+        controlQualityResult.addStorage();
+        for (Storage storage : controlQualityResult.storages) {
             if (storage instanceof Warehouse)
                 storage.add(milk);
         }
 
         controlQuality.checkQuality(milk);
 
-        Assert.assertEquals(controlQualityResult.getStorages().size(), controlQuality.getStorages().size());
-        for (int i = 0; i < controlQualityResult.getStorages().size(); i++) {
-            Assert.assertEquals(controlQualityResult.getStorages().get(i).getFoods(), controlQuality.getStorages().get(i).getFoods());
+        Assert.assertEquals(controlQualityResult.storages.size(), controlQuality.storages.size());
+        for (int i = 0; i < controlQualityResult.storages.size(); i++) {
+            Assert.assertEquals(controlQualityResult.storages.get(i).foods, controlQuality.storages.get(i).foods);
         }
     }
 
@@ -41,7 +41,7 @@ public class ControlQualityTest {
     public void GetProductMore25Less75PercentSendToShop() throws Exception {
         milk.setCreateDate(new Date().getTime() - 180000000);
         ControlQuality controlQualityResult = new ControlQuality();
-        controlQualityResult.fillStorage();
+        controlQualityResult.addStorage();
         for (Storage storage : controlQualityResult.getStorages()) {
             if (storage instanceof Shop)
                 storage.add(milk);
@@ -59,7 +59,7 @@ public class ControlQualityTest {
     public void GetProductMore75Less100PercentSendToShopSetDiscount() throws Exception {
         milk.setCreateDate(new Date().getTime() - 681500000);
         ControlQuality controlQualityResult = new ControlQuality();
-        controlQualityResult.fillStorage();
+        controlQualityResult.addStorage();
         for (Storage storage : controlQualityResult.getStorages()) {
             if (storage instanceof  Shop)
                 storage.add(milk);
@@ -80,7 +80,7 @@ public class ControlQualityTest {
     public void GetProductMore100PercentSendToTrash() throws Exception {
         milk.setCreateDate(new Date().getTime() - 691500000);
         ControlQuality controlQualityResult = new ControlQuality();
-        controlQualityResult.fillStorage();
+        controlQualityResult.addStorage();
         for (Storage storage : controlQualityResult.getStorages()) {
             if (storage instanceof Trash)
                 storage.add(milk);

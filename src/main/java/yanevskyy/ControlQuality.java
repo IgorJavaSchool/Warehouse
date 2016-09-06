@@ -26,23 +26,17 @@ public class ControlQuality implements InspectionQuality {
      */
     @Override
     public void checkQuality(Food food) {
-        for (Storage storage : getStorages()) {
+        for (Storage storage : this.storages) {
             if (storage.checkQuality(food))
                 storage.add(food);
         }
 
     }
 
-    public List<Storage> getStorages() {
-        return storages;
-    }
-
     /**
      * Adds all storage.
      */
-    public void fillStorage(){
-        getStorages().add(new Shop());
-        getStorages().add(new Trash());
-        getStorages().add(new Warehouse());
+    public void addStorage(Storage storage){
+        this.storages.add(storage);
     }
 }

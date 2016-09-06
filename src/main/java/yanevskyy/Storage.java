@@ -18,10 +18,6 @@ public abstract class Storage {
         foods = new ArrayList<>();
     }
 
-    public List<Food> getFoods() {
-        return foods;
-    }
-
     public void add(Food food){
         foods.add(food);
     }
