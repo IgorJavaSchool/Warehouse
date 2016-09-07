@@ -19,7 +19,7 @@ public class Warehouse extends Storage {
 
     @Override
     public boolean checkQuality(Food food) {
-        if (food.percentExpiration() < 25)
+        if (food.percentExpiration() < 25 && !isFullStorage())
             return true;
         else return false;
     }

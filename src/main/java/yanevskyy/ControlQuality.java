@@ -27,7 +27,7 @@ public class ControlQuality implements InspectionQuality {
     @Override
     public void checkQuality(Food food) {
         for (Storage storage : this.storages) {
-            if (storage.checkQuality(food) && !storage.isFullStorage())
+            if (storage.checkQuality(food))
                 storage.add(food);
         }
 

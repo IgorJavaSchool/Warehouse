@@ -43,7 +43,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductLess25PercentThenSendToWarehouse() throws Exception {
+    public void whenProductLess25PercentThenSendToWarehouse() throws Exception {
         createDate.setTime(new Date().getTime() - 172000000);
         milk = new Milk("Milk", 8, 15, createDate, true);
 
@@ -55,7 +55,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductMore25Less75PercentThenSendToShop() throws Exception {
+    public void whenProductMore25Less75PercentThenSendToShop() throws Exception {
         createDate.setTime(new Date().getTime() - 180000000);
         milk = new Milk("Milk", 8, 15, createDate, true);
 
@@ -67,7 +67,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductMore75Less100PercentThenSendToShopSetDiscount() throws Exception {
+    public void whenProductMore75Less100PercentThenSendToShopSetDiscount() throws Exception {
         createDate.setTime(new Date().getTime() - 681500000);
         milk = new Milk("Milk", 8, 15, createDate, true);
 
@@ -80,7 +80,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductMore100PercentThenSendToTrash() throws Exception {
+    public void whenProductMore100PercentThenSendToTrash() throws Exception {
         createDate.setTime(new Date().getTime() - 691500000);
         milk = new Milk("Milk", 8, 15, createDate, false);
 
@@ -103,7 +103,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductLess25PercentWarehouse1IsFullThenSendToWarehouse2() throws Exception {
+    public void whenProductLess25PercentWarehouse1IsFullThenSendToWarehouse2() throws Exception {
         warehouse = new Warehouse(foodsWarehouse, true);
         controlQuality = new ControlQuality();
         controlQuality.addStorage(shop);
@@ -122,7 +122,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductMore100PercentAndReproductIsTrueThenSendToRefregerator() throws Exception {
+    public void whenProductMore100PercentAndReproductIsTrueThenSendToRefregerator() throws Exception {
         createDate.setTime(new Date().getTime() - 691500000);
         milk = new Milk("Milk", 8, 15, createDate, true);
         List<Food> foodsRefregerator = new ArrayList<>();
@@ -136,6 +136,7 @@ public class ControlQualityTest {
         Assert.assertFalse(foodsShop.contains(milk));
         Assert.assertFalse(foodsTrash.contains(milk));
         Assert.assertTrue(foodsRefregerator.contains(milk));
+        Assert.assertTrue(createDate.getTime() == System.currentTimeMillis());
     }
 
 }

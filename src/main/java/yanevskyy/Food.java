@@ -46,6 +46,10 @@ public class Food {
         return canReproduct;
     }
 
+    public void setCreateDate(Date createDate) {
+        this.createDate.setTime(createDate.getTime());
+    }
+
     /**
      * Create expiration date.
      * @return

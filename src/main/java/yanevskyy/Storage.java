@@ -19,7 +19,7 @@ public abstract class Storage {
         this.fullStorage = fullStorage;
     }
 
-    public boolean isFullStorage() {
+    protected boolean isFullStorage() {
         return fullStorage;
     }
 

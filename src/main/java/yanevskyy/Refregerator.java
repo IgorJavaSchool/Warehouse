@@ -19,8 +19,12 @@ public class Refregerator extends Storage {
 
     @Override
     public boolean checkQuality(Food food) {
-        if (food.percentExpiration() >= 100 && food.isCanReproduct())
+        Recycling recycling;
+        if (food.percentExpiration() >= 100 && food.isCanReproduct()) {
+            recycling = new Recycling();
+            recycling.recycleProduct(food);
             return true;
+        }
         else return false;
     }
 }
