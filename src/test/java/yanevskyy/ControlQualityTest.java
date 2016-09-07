@@ -31,7 +31,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductLess25PercentThenSendToWarehouse() throws Exception {
+    public void whenProductLess25PercentThenSendToWarehouse() throws Exception {
         createDate.setTime(new Date().getTime() - 172000000);
         milk = new Milk("Milk", 8, 15, createDate);
 
@@ -43,7 +43,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductMore25Less75PercentThenSendToShop() throws Exception {
+    public void whenProductMore25Less75PercentThenSendToShop() throws Exception {
         createDate.setTime(new Date().getTime() - 180000000);
         milk = new Milk("Milk", 8, 15, createDate);
 
@@ -55,7 +55,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductMore75Less100PercentThenSendToShopSetDiscount() throws Exception {
+    public void whenProductMore75Less100PercentThenSendToShopSetDiscount() throws Exception {
         createDate.setTime(new Date().getTime() - 681500000);
         milk = new Milk("Milk", 8, 15, createDate);
 
@@ -68,7 +68,7 @@ public class ControlQualityTest {
     }
 
     @Test
-    public void WhenProductMore100PercentThenSendToTrash() throws Exception {
+    public void whenProductMore100PercentThenSendToTrash() throws Exception {
         createDate.setTime(new Date().getTime() - 691500000);
         milk = new Milk("Milk", 8, 15, createDate);
 
